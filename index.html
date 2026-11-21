@@ -301,5 +301,24 @@ if ("serviceWorker" in navigator) {
 }
 </script>
   
+<!-- FIREBASE KICKOFF -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDhU-NVL2w4KnDl8dspiVgWpAwFaHEUPGM",
+  authDomain: "kickoff15-8451f.firebaseapp.com",
+  projectId: "kickoff15-8451f",
+  storageBucket: "kickoff15-8451f.firebasestorage.app",
+  messagingSenderId: "893793531490",
+  appId: "1:893793531490:web:b43f89d68903e3fa39433b",
+  measurementId: "G-VYK1NVXQSP"
+};
+
+firebase.initializeApp(firebaseConfig);
+const messaging = firebase.messaging();
+</script>
+  
 </body>
 </html>
