@@ -2,10 +2,11 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
 <meta name="google-site-verification" content="5rSpCUB_o-zEyvv4CP5z_Jn2BOjMpYit0IiWkpw2CqE" />
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Football Live Score</title>
+<title>KickOff - Live Score</title>
+
 <style>
 * { box-sizing: border-box; }
 
@@ -38,8 +39,12 @@ nav span:first-child {
   font-weight: bold;
 }
 
-h3 {
-  margin: 22px 15px 12px;
+h3 { margin: 22px 15px 12px; }
+
+#info {
+  margin: 12px 15px;
+  color: #aaa;
+  font-size: 12px;
 }
 
 .league {
@@ -98,12 +103,20 @@ h3 {
   font-size: 12px;
 }
 
-.bottom span:first-child {
-  color: #35d07f;
+.bottom span:first-child { color: #35d07f; }
+
+main { padding-bottom: 65px; }
+
+.team img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  margin-right: 7px;
 }
 
-main {
-  padding-bottom: 65px;
+.team-name {
+  display: flex;
+  align-items: center;
 }
 </style>
 </head>
@@ -120,51 +133,8 @@ main {
 
 <main>
 <h3>Pertandingan</h3>
-
-<div class="league">
-  <div class="league-title">🇮🇩 Liga Indonesia</div>
-  <div class="match">
-    <div class="live">● LIVE 75'</div>
-    <div class="team">
-      <span>🔵 Persib Bandung</span>
-      <span class="score">2</span>
-    </div>
-    <div class="team">
-      <span>🔴 Persija Jakarta</span>
-      <span class="score">1</span>
-    </div>
-  </div>
-</div>
-
-<div class="league">
-  <div class="league-title">🏴 Premier League</div>
-  <div class="match">
-    <div class="time">20:00 • Jadwal</div>
-    <div class="team">
-      <span>🔴 Arsenal</span>
-      <span class="score">-</span>
-    </div>
-    <div class="team">
-      <span>🔵 Chelsea</span>
-      <span class="score">-</span>
-    </div>
-  </div>
-</div>
-
-<div class="league">
-  <div class="league-title">🇪🇸 La Liga</div>
-  <div class="match">
-    <div class="time">22:00 • Jadwal</div>
-    <div class="team">
-      <span>⚪ Real Madrid</span>
-      <span class="score">-</span>
-    </div>
-    <div class="team">
-      <span>🔵 Barcelona</span>
-      <span class="score">-</span>
-    </div>
-  </div>
-</div>
+<div id="info">Mengambil data pertandingan...</div>
+<div id="matches"></div>
 </main>
 
 <div class="bottom">
@@ -173,6 +143,113 @@ main {
 <span>⭐ Favorit</span>
 <span>⚙ Pengaturan</span>
 </div>
+
+<script>
+const API =
+"https://sportscore.com/api/widget/matches/?sport=football&limit=50";
+
+async function updateMatches() {
+  const container = document.getElementById("matches");
+  const info = document.getElementById("info");
+
+  try {
+    const response = await fetch(API);
+
+    if (!response.ok) {
+      throw new Error("Gagal mengambil data");
+    }
+
+    const data = await response.json();
+    const matches = data.matches || [];
+
+    container.innerHTML = "";
+
+    if (matches.length === 0) {
+      container.innerHTML =
+        '<div class="match">Belum ada pertandingan tersedia.</div>';
+    }
+
+    matches.forEach(match => {
+      const status = match.status_text || match.status || "Pertandingan";
+      const isLive = String(match.status).toLowerCase() === "live";
+
+      const homeScore =
+        match.home_score == null ? "-" : match.home_score;
+
+      const awayScore =
+        match.away_score == null ? "-" : match.away_score;
+
+      const leagueName = match.competition || "Sepak Bola";
+
+      const homeLogo = match.home_logo
+        ? `<img src="${match.home_logo}" alt="">`
+        : "";
+
+      const awayLogo = match.away_logo
+        ? `<img src="${match.away_logo}" alt="">`
+        : "";
+
+      const card = document.createElement("div");
+      card.className = "league";
+
+      const title = document.createElement("div");
+      title.className = "league-title";
+      title.textContent = "⚽ " + leagueName;
+
+      const matchBox = document.createElement("div");
+      matchBox.className = "match";
+
+      const statusBox = document.createElement("div");
+      statusBox.className = isLive ? "live" : "time";
+      statusBox.textContent = isLive ? "● LIVE " + status : status;
+
+      const home = document.createElement("div");
+      home.className = "team";
+      home.innerHTML =
+        `<span class="team-name">${homeLogo}</span>`;
+      home.querySelector(".team-name").append(
+        document.createTextNode(match.home || "Tim kandang")
+      );
+
+      const homeScoreBox = document.createElement("span");
+      homeScoreBox.className = "score";
+      homeScoreBox.textContent = homeScore;
+      home.append(homeScoreBox);
+
+      const away = document.createElement("div");
+      away.className = "team";
+      away.innerHTML =
+        `<span class="team-name">${awayLogo}</span>`;
+      away.querySelector(".team-name").append(
+        document.createTextNode(match.away || "Tim tandang")
+      );
+
+      const awayScoreBox = document.createElement("span");
+      awayScoreBox.className = "score";
+      awayScoreBox.textContent = awayScore;
+      away.append(awayScoreBox);
+
+      matchBox.append(statusBox, home, away);
+      card.append(title, matchBox);
+      container.append(card);
+    });
+
+    info.textContent =
+      "Data diperbarui: " + new Date().toLocaleTimeString("id-ID");
+
+  } catch (error) {
+    info.textContent = "Data belum bisa dimuat. Periksa koneksi internet.";
+  }
+}
+
+updateMatches();
+setInterval(updateMatches, 60000);
+</script>
+
+<p style="text-align:center;font-size:11px;padding:10px;color:#aaa">
+  Powered by <a href="https://sportscore.com/" target="_blank"
+  style="color:#F1FF00">SportScore</a>
+</p>
 
 </body>
 </html>
