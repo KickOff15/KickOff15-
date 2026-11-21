@@ -124,6 +124,42 @@ main { padding-bottom: 65px; }
 <body>
 <header>⚽ KickOff</header>
 
+<div style="text-align:center;padding:15px">
+  <button id="aktifkanNotif"
+    style="background:#F1FF00;color:#101114;padding:12px 18px;border:0;border-radius:8px;font-weight:bold">
+    🔔 Aktifkan Notifikasi
+  </button>
+  <p id="statusNotif" style="font-size:12px;color:#aaa">
+    Aktifkan pemberitahuan KickOff
+  </p>
+</div>
+
+<script>
+document.getElementById("aktifkanNotif")
+.addEventListener("click", async () => {
+  const status = document.getElementById("statusNotif");
+
+  if (!("Notification" in window)) {
+    status.textContent = "Browser tidak mendukung notifikasi.";
+    return;
+  }
+
+  const izin = await Notification.requestPermission();
+
+  if (izin === "granted") {
+    status.textContent = "Notifikasi berhasil diaktifkan!";
+
+    const reg = await navigator.serviceWorker.ready;
+
+    reg.showNotification("KickOff ⚽", {
+      body: "Notifikasi KickOff berhasil diaktifkan!"
+    });
+  } else {
+    status.textContent = "Izin notifikasi belum diberikan.";
+  }
+});
+</script>
+  
 <nav>
 <span>LIVE</span>
 <span>HASIL</span>
