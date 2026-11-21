@@ -251,5 +251,19 @@ setInterval(updateMatches, 60000);
   style="color:#F1FF00">SportScore</a>
 </p>
 
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/KickOff15-/sw.js")
+      .then(() => {
+        console.log("KickOff Notification siap");
+      })
+      .catch(error => {
+        console.log("Service Worker gagal:", error);
+      });
+  });
+}
+</script>
+  
 </body>
 </html>
