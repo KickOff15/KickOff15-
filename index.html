@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Football Live Score</title>
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #101114;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  background: #181a20;
+  padding: 20px 16px;
+  font-size: 23px;
+  font-weight: bold;
+  color: #F1FF00;
+}
+
+nav {
+  display: flex;
+  justify-content: space-around;
+  background: #202229;
+  padding: 15px 5px;
+  color: #aaa;
+  font-size: 13px;
+}
+
+nav span:first-child {
+  color: #35d07f;
+  font-weight: bold;
+}
+
+h3 {
+  margin: 22px 15px 12px;
+}
+
+.league {
+  background: #202229;
+  margin: 12px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.league-title {
+  padding: 14px;
+  background: #292c34;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.match {
+  padding: 15px;
+  border-top: 1px solid #343740;
+}
+
+.team {
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 0;
+  font-size: 14px;
+}
+
+.score {
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.live {
+  color: #ff5555;
+  font-size: 11px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.time {
+  color: #aaa;
+  font-size: 12px;
+}
+
+.bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background: #202229;
+  padding: 15px 5px;
+  color: #aaa;
+  font-size: 12px;
+}
+
+.bottom span:first-child {
+  color: #35d07f;
+}
+
+main {
+  padding-bottom: 65px;
+}
+</style>
+</head>
+
+<body>
+<header>⚽ KickOff</header>
+
+<nav>
+<span>LIVE</span>
+<span>HASIL</span>
+<span>JADWAL</span>
+<span>LIGA</span>
+</nav>
+
+<main>
+<h3>Pertandingan</h3>
+
+<div class="league">
+  <div class="league-title">🇮🇩 Liga Indonesia</div>
+  <div class="match">
+    <div class="live">● LIVE 75'</div>
+    <div class="team">
+      <span>🔵 Persib Bandung</span>
+      <span class="score">2</span>
+    </div>
+    <div class="team">
+      <span>🔴 Persija Jakarta</span>
+      <span class="score">1</span>
+    </div>
+  </div>
+</div>
+
+<div class="league">
+  <div class="league-title">🏴 Premier League</div>
+  <div class="match">
+    <div class="time">20:00 • Jadwal</div>
+    <div class="team">
+      <span>🔴 Arsenal</span>
+      <span class="score">-</span>
+    </div>
+    <div class="team">
+      <span>🔵 Chelsea</span>
+      <span class="score">-</span>
+    </div>
+  </div>
+</div>
+
+<div class="league">
+  <div class="league-title">🇪🇸 La Liga</div>
+  <div class="match">
+    <div class="time">22:00 • Jadwal</div>
+    <div class="team">
+      <span>⚪ Real Madrid</span>
+      <span class="score">-</span>
+    </div>
+    <div class="team">
+      <span>🔵 Barcelona</span>
+      <span class="score">-</span>
+    </div>
+  </div>
+</div>
+</main>
+
+<div class="bottom">
+<span>🏠 Home</span>
+<span>⚽ Matches</span>
+<span>⭐ Favorit</span>
+<span>⚙ Pengaturan</span>
+</div>
+
+</body>
+</html>
